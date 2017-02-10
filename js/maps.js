@@ -42,6 +42,31 @@ var initialLocations=[
   }
 ];
 
+
+var map;
+function initMap() {
+  var location;
+  var marker;
+  var bounds = new google.maps.LatLngBounds();
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 12.9715987, lng: 77.5945627},
+    zoom: 13
+  });
+
+  for( location in initialLocations) {
+    var position = new google.maps.LatLng(location.lat, location.lng);
+    bounds.extend(position);
+    marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: location.title
+    });
+
+}
+}
+initMap();
+
+
 var viewModel={
   query:ko.observable('')
 };
