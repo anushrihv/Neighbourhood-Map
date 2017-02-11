@@ -3,7 +3,7 @@ var initialLocations=[
     title:'Garuda Mall',
     lat:12.969978,
     lng:77.609842,
-    venueId:'4b5ee0ccf964a5201b9c29e3'
+    venueId:'4b643b33f964a52067a52ae3'
   },
 
   {
@@ -44,6 +44,7 @@ var initialLocations=[
 
 
 var map;
+var infowindow;
 function initMap() {
   var location;
   var marker;
@@ -53,14 +54,55 @@ function initMap() {
     zoom: 13
   });
 
-  for( location in initialLocations) {
+  infowindow = new google.maps.InfoWindow();
+
+  for( var i=0;i<initialLocations.length;i++) {
+
+    location=initialLocations[i];
     var position = new google.maps.LatLng(location.lat, location.lng);
     bounds.extend(position);
     marker = new google.maps.Marker({
         position: position,
         map: map,
-        title: location.title
+        title: location.title,
+        venueId:location.venueId
     });
+
+    marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);//replace openinfowindow with getwikidata
+
+    function infowindowContent(){
+        var content;
+        var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
+        $.getJSON(foursquareUrl,function(data){
+          articles=data.response.tips.items;
+          for(i=0;i<articles.length;i++)
+          {
+            var article=articles[i];
+            content='<h3>'+marker.title+'</h3><br><br><ul><li>'+article.text+'</li></ul>';
+          };
+
+
+        }).error(function(){
+          content='<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>';
+        });//json ends here
+
+
+     };
+
+
+//specify parameter for infowindowcontent
+     function openInfowindow(){
+       var marker=this;
+       for (var i=0; i < locationsModel.locations.length; i++)
+       {
+         locationsModel.locations[i].infowindow.close();
+        }
+     			map.panTo(marker.getPosition())
+     			infowindow.setContent(infowindowcontent.content);
+     			infowindow.open(map,marker);
+     		};
+
+
 
 }
 }
