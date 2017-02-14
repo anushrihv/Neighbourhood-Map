@@ -70,35 +70,44 @@ function initMap() {
 
     marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);//replace openinfowindow with getwikidata
 
+
     function infowindowContent(){
+      var marker=this;
+      marker.tips=[];
         var content;
         var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
         $.getJSON(foursquareUrl,function(data){
-          articles=data.response.tips.items;
-          for(i=0;i<articles.length;i++)
+          console.log(data);
+          items=data.response.tips.items;
+          for(i=0;i<items.length;i++)
           {
-            var article=articles[i];
-            content='<h3>'+marker.title+'</h3><br><br><ul><li>'+article.text+'</li></ul>';
+            console.log(items[i].text);
+
+            marker.tips.push(items[i].text);
+          //  var article=articles[i];
+          //  content='<h3>'+marker.title+'</h3><br><br><ul><li>'+items.text+'</li></ul>';
           };
+          infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
+          openInfowindow(marker);
 
-
-        }).error(function(){
-          content='<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>';
-        });//json ends here
+        });//.error(function(){
+          //content='<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>';
+        //});//json ends here
 
 
      };
 
 
 //specify parameter for infowindowcontent
-     function openInfowindow(){
-       var marker=this;
-       for (var i=0; i < locationsModel.locations.length; i++)
-       {
-         locationsModel.locations[i].infowindow.close();
-        }
+     function openInfowindow(marker){
+
+
+       //for (var i=0; i < locationsModel.locations.length; i++)
+       //{
+        // locationsModel.locations[i].infowindow.close();
+        //}
      			map.panTo(marker.getPosition())
-     			infowindow.setContent(infowindowcontent.content);
+
      			infowindow.open(map,marker);
      		};
 
