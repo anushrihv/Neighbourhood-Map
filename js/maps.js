@@ -69,7 +69,7 @@ function initMap() {
         venueId:location.venueId
     });
 
-    
+
     document.getElementById('listing').addEventListener("click", infowindowContent,true);
     marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);
 
@@ -115,11 +115,6 @@ function initMap() {
 
      			infowindow.open(map,marker);
      		};
-
-
-
-
-
 }
 }
 initMap();
