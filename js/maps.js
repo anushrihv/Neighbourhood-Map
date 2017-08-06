@@ -48,6 +48,7 @@ var infowindow;
 function initMap() {
   var location;
   var marker;
+
   var bounds = new google.maps.LatLngBounds();
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 12.9715987, lng: 77.5945627},
@@ -68,20 +69,23 @@ function initMap() {
         venueId:location.venueId
     });
 
-    marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);//replace openinfowindow with getwikidata
+    
+    document.getElementById('listing').addEventListener("click", infowindowContent,true);
+    marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);
 
 
     function infowindowContent(){
+
       var marker=this;
       marker.tips=[];
         var content;
         var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
         $.getJSON(foursquareUrl,function(data){
-          console.log(data);
+        //  console.log(data);
           items=data.response.tips.items;
           for(i=0;i<items.length;i++)
           {
-            console.log(items[i].text);
+            //console.log(items[i].text);
 
             marker.tips.push(items[i].text);
           //  var article=articles[i];
@@ -91,7 +95,8 @@ function initMap() {
           openInfowindow(marker);
 
         });//.error(function(){
-          //content='<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>';
+        //  infowindow.setContent('<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>');
+        //  openInfowindow(marker);
         //});//json ends here
 
 
@@ -110,6 +115,8 @@ function initMap() {
 
      			infowindow.open(map,marker);
      		};
+
+
 
 
 

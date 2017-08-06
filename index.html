@@ -8,6 +8,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnPeNY07HjUBmzjdA_gRpgs3aGy2umagI"></script>
     <script src="js/lib/knockout.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
   </head>
   <body>
     <div class="screen-box">
@@ -17,18 +18,16 @@
 
         </form>
         <br>
-      <ul data-bind="foreach:initialLocations">
-        <li data-bind="text:title"></li><br><br>
+        
+        <br>
+        <ul data-bind="foreach:initialLocations">
+        <li id="listing" data-bind="text:title,click:initMap.open"></li><br><br>
       </ul>
     </div>
 
     <div class="map" id="map"></div>
 
     </div>
-
-  <script src="js/maps.js"></script>
-
-
-
-  </body>
+    <script src="js/maps.js"></script>
+</body>
 </html>
