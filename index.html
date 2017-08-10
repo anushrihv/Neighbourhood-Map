@@ -18,10 +18,10 @@
 
         </form>
         <br>
-        
+
         <br>
         <ul data-bind="foreach:initialLocations">
-        <li id="listing" data-bind="text:title,click:initMap.open"></li><br><br>
+        <li id="listing" data-bind="text:title,click:$root.openInfowindow"></li><br><br>
       </ul>
     </div>
 

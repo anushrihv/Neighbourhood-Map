@@ -66,62 +66,39 @@ function initMap() {
         position: position,
         map: map,
         title: location.title,
+        animation: google.maps.Animation.DROP,
         venueId:location.venueId
     });
 
 
     document.getElementById('listing').addEventListener("click", infowindowContent,true);
     marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);
+    initialLocations[i].marker = marker;
 
 
-    function infowindowContent(){
-
-      var marker=this;
-      marker.tips=[];
-        var content;
-        var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
-        $.getJSON(foursquareUrl,function(data){
-        //  console.log(data);
-          items=data.response.tips.items;
-          for(i=0;i<items.length;i++)
-          {
-            //console.log(items[i].text);
-
-            marker.tips.push(items[i].text);
-          //  var article=articles[i];
-          //  content='<h3>'+marker.title+'</h3><br><br><ul><li>'+items.text+'</li></ul>';
-          };
-          infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
-          openInfowindow(marker);
-
-        });//.error(function(){
-        //  infowindow.setContent('<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>');
-        //  openInfowindow(marker);
-        //});//json ends here
-
-
-     };
 
 
 //specify parameter for infowindowcontent
-     function openInfowindow(marker){
 
-
-       //for (var i=0; i < locationsModel.locations.length; i++)
-       //{
-        // locationsModel.locations[i].infowindow.close();
-        //}
-     			map.panTo(marker.getPosition())
-
-     			infowindow.open(map,marker);
-     		};
 }
 }
 initMap();
 
 
 var viewModel={
-  query:ko.observable('')
+  query:ko.observable(''),
+   openInfowindow:function(location){
+
+
+     //for (var i=0; i < locationsModel.locations.length; i++)
+     //{
+      // locationsModel.locations[i].infowindow.close();
+      //}
+        map.panTo(location.marker.getPosition())
+        google.maps.event.trigger(location.marker,'click');
+        //infowindow.open(map,marker);
+      }
+
 };
 
 viewModel.initialLocations=ko.dependentObservable(function(){
@@ -130,5 +107,33 @@ viewModel.initialLocations=ko.dependentObservable(function(){
     return location.title.toLowerCase().indexOf(search)>=0;
   });
 },viewModel);
+
+function infowindowContent(){
+
+  var marker=this;
+  marker.tips=[];
+    var content;
+    var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
+    $.getJSON(foursquareUrl,function(data){
+    //  console.log(data);
+      items=data.response.tips.items;
+      for(i=0;i<items.length;i++)
+      {
+        //console.log(items[i].text);
+
+        marker.tips.push(items[i].text);
+      //  var article=articles[i];
+      //  content='<h3>'+marker.title+'</h3><br><br><ul><li>'+items.text+'</li></ul>';
+      };
+      infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
+      infowindow.open(map,marker)
+
+    });//.error(function(){
+    //  infowindow.setContent('<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>');
+    //  openInfowindow(marker);
+    //});//json ends here
+
+
+ };
 
 ko.applyBindings(viewModel);
