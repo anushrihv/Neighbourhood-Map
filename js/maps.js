@@ -21,10 +21,10 @@ var initialLocations=[
   },
 
   {
-    title:'ISCKON',
-    lat:13.009629,
-    lng:77.551068,
-    venueId:'52f4be16498e7e49d438c652'
+    title:'Tippu Sultan Palace',
+    lat:12.959583,
+    lng:77.574038,
+    venueId:'4d561f78611aa35da9963d39'
   },
 
   {
@@ -104,7 +104,11 @@ var viewModel={
 viewModel.initialLocations=ko.dependentObservable(function(){
   var search=this.query().toLowerCase();
   return ko.utils.arrayFilter(initialLocations,function(location){
-    return location.title.toLowerCase().indexOf(search)>=0;
+    var matched=  location.title.toLowerCase().indexOf(search)>=0;
+    if(location.marker){
+      location.marker.setVisible(matched);
+    }
+    return matched;
   });
 },viewModel);
 
