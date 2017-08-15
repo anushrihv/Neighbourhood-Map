@@ -94,7 +94,7 @@ var viewModel={
      //{
       // locationsModel.locations[i].infowindow.close();
       //}
-        map.panTo(location.marker.getPosition())
+        map.panTo(location.marker.getPosition());
         google.maps.event.trigger(location.marker,'click');
         //infowindow.open(map,marker);
       }
@@ -128,9 +128,9 @@ function infowindowContent(){
         marker.tips.push(items[i].text);
       //  var article=articles[i];
       //  content='<h3>'+marker.title+'</h3><br><br><ul><li>'+items.text+'</li></ul>';
-      };
+    }
       infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
-      infowindow.open(map,marker)
+      infowindow.open(map,marker);
 
     });//.error(function(){
     //  infowindow.setContent('<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>');
@@ -138,6 +138,6 @@ function infowindowContent(){
     //});//json ends here
 
 
- };
+ }
 
 ko.applyBindings(viewModel);
