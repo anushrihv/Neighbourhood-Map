@@ -70,33 +70,21 @@ function initMap() {
         venueId:location.venueId
     });
 
-
-    document.getElementById('listing').addEventListener("click", infowindowContent,true);
+    //document.getElementById('listing').addEventListener("click", infowindowContent,true);
     marker.addListener = google.maps.event.addListener(marker,'click', infowindowContent);
+    marker.addListener=google.maps.event.addListener(marker,'click', toggleBounce);
     initialLocations[i].marker = marker;
-
-
-
-
-//specify parameter for infowindowcontent
-
 }
 }
 initMap();
-
 
 var viewModel={
   query:ko.observable(''),
    openInfowindow:function(location){
 
-
-     //for (var i=0; i < locationsModel.locations.length; i++)
-     //{
-      // locationsModel.locations[i].infowindow.close();
-      //}
         map.panTo(location.marker.getPosition());
         google.maps.event.trigger(location.marker,'click');
-        //infowindow.open(map,marker);
+
       }
 
 };
@@ -116,28 +104,44 @@ function infowindowContent(){
 
   var marker=this;
   marker.tips=[];
-    var content;
-    var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
-    $.getJSON(foursquareUrl,function(data){
-    //  console.log(data);
-      items=data.response.tips.items;
-      for(i=0;i<items.length;i++)
-      {
-        //console.log(items[i].text);
+  var content;
+  var foursquareUrl = 'https://api.foursquare.com/v2/venues/'+marker.venueId+'/tips?sort=recent&limit=3&client_id=JM4ALTWHFZOHRQGJVDRY4LUP5E540HXSOAWLHDEEWTW1PYJ5&client_secret=ZIU1XM0GIOKKOSWS3S3ZZAHU01XG33KSSUJB1ZGIMD2D12AB&v=20170211';
+  $.getJSON(foursquareUrl,function(data){
 
-        marker.tips.push(items[i].text);
-      //  var article=articles[i];
-      //  content='<h3>'+marker.title+'</h3><br><br><ul><li>'+items.text+'</li></ul>';
+    items=data.response.tips.items;
+    for(i=0;i<items.length;i++)
+    {
+
+      marker.tips.push(items[i].text);
+
     }
-      infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
-      infowindow.open(map,marker);
-
-    });//.error(function(){
-    //  infowindow.setContent('<h3>'+marker.title+'</h3><br><br><p>could not load the item</p>');
-    //  openInfowindow(marker);
-    //});//json ends here
+    infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
+    infowindow.open(map,marker);
 
 
- }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+            infowindow.setContent('<p><b>Error in retrieving comments!!</b></p>');
+            infowindow.open(map,marker);
+            console.log('getJSON request failed! ' + textStatus);
+        });
+      //for(i=0;i<items.length;i++)
+      //{
+
+      //  marker.tips.push(items[i].text);
+
+    //  }
+    //  infowindow.setContent('<div class="info-window"><h4>'+marker.title+'</h4><ul>foursquaretips<li>'+marker.tips[0]+'</li><br><li>'+marker.tips[1]+'</li><br><li>'+marker.tips[2]+'</li></ul></div>');
+    //  infowindow.open(map,marker);
+}
+var currentmarker=null;
+function toggleBounce() {
+var marker=this;
+        if (currentmarker) {
+          currentmarker.setAnimation(null);
+        }
+        currentmarker=marker;
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+
+      }
 
 ko.applyBindings(viewModel);
