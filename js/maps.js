@@ -76,7 +76,7 @@ function initMap() {
     initialLocations[i].marker = marker;
 }
 }
-initMap();
+//initMap();
 
 var viewModel={
   query:ko.observable(''),
@@ -143,5 +143,10 @@ var marker=this;
           marker.setAnimation(google.maps.Animation.BOUNCE);
 
       }
+
+function googleError() {
+    alert("google Error");
+    console.log("couldn't load the map!")
+  }
 
 ko.applyBindings(viewModel);

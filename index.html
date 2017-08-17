@@ -10,14 +10,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnPeNY07HjUBmzjdA_gRpgs3aGy2umagI" onerror="googleError()"></script>
+
 
   </head>
   <body>
       <div class="container" id="screen-box">
         <div class="row">
           <div class="col-md-3" id="list-bar">
-            <form>
+            <form class="a">
               <input type="text" placeholder="location" name="a" data-bind="value:query,valueUpdate:'keyup'" autocomplete="off">
             </form>
             <br>
@@ -32,7 +32,7 @@
     </div>
 
     <script src="js/maps.js"></script>
-
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnPeNY07HjUBmzjdA_gRpgs3aGy2umagI&callback=initMap" onerror="googleError()"></script>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </body>
