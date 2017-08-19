@@ -1,44 +1,67 @@
-#list-bar {
-  height:100%;
-  width: 30%;
-  left:10px;
-  position:fixed;
-  border: 1px solid black;
-  top:10px;
-  color:white;
-  background-color: black;
-  float:left;
-  font-family: 'Ubuntu', sans-serif;
-
+html,
+body,
+.map-canvas {
+	height: 100%;
+	width: 99%;
+	margin: 0;
+	padding: 0;
 }
 
-.a {
-	color:black;
+.map-canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
 }
 
-#map {
-  width:80%;
-  height:900px;
-  background-color: grey;
-  float:right;
-
+.search-area {
+	font-size: 1.1em;
 }
 
-#screen-box {
-  width:100%;
-  height:100%;
-  position:relative;
-}
-body{
-  background-color: white;
+.search-area {
+	position: absolute;
+	max-height: 100%;
+	overflow: auto;
+	left: 1%;
+	top: 2%;
+	z-index: 2;
+	background-color: #fff;
+	opacity: 0.8;
 }
 
-ul {
-  list-style-type: none;
+.location-list {
+	padding: 0;
+	margin: 5px;
+}
+
+.search-input {
+	padding: 10px 20px;
+	font-size: 1.5em;
+}
+
+.location-item {
+	padding: 10px;
+	margin: 0;
+	background-color: #fff;
+	list-style-type: none;
+	text-align: center;
+	border: solid green 1px;
+}
+
+@media (max-width:600px) {
+	.map-canvas {
+		margin-top: 52px;
+	}
+
+  .location-list {
+		margin: 0;
+	}
+
+  .search-area,
+  .search-input {
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
   }
-li:hover {
-  background-color: darkgray;
-}
-li {
-  font-size: 20px;
-}
+  }

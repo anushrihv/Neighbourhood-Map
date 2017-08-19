@@ -14,22 +14,25 @@
 
   </head>
   <body>
-      <div class="container" id="screen-box">
-        <div class="row">
-          <div class="col-md-3" id="list-bar">
+
+
+          <div class="search-area" id="list-bar">
             <form class="a">
-              <input type="text" placeholder="location" name="a" data-bind="value:query,valueUpdate:'keyup'" autocomplete="off">
+              <input class="search-input" type="text" placeholder="location" name="a" data-bind="value:query,valueUpdate:'keyup'" autocomplete="off">
             </form>
-            <br>
-            <br>
-            <ul data-bind="foreach:initialLocations">
-              <li id="listing" data-bind="text:title,click:$root.openInfowindow"></li><br><br>
+
+            <ul class="location-list" data-bind="foreach:initialLocations">
+              <li class="list-item" id="listing" data-bind="text:title,click:$root.openInfowindow"></li><br><br>
             </ul>
           </div>
 
-        <div class="col-md-9" id="map"></div>
-      </div>
-    </div>
+        <div class="map-canvas" id="map">
+
+        </div>
+
+
+
+
 
     <script src="js/maps.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnPeNY07HjUBmzjdA_gRpgs3aGy2umagI&callback=initMap" onerror="googleError()"></script>
