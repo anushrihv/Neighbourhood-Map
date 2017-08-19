@@ -146,7 +146,7 @@ var marker=this;
 
 function googleError() {
     alert("google Error");
-    console.log("couldn't load the map!")
+    console.log("couldn't load the map!");
   }
 
 ko.applyBindings(viewModel);
